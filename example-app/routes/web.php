@@ -17,18 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/series', function() {
-	$series = [
-		'Ted Lasso',
-		'Friends',
-		'This is Us'
-	];
-	
-	$html = "<ul>";
-	foreach ($series as $series) {
-		$html .= "<li>$series</li>";
-	}
-	$html .= "</ul>";
+Route::get('/series', 'SeriesController@index');
 
-	return $html;
-});
+//Route::get('/series', 'App\Http\Controllers\SeriesController@listarSeries');
