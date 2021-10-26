@@ -6,12 +6,16 @@ use App\Serie;
 use Illuminate\Http\Request;
 
 class SeriesController extends Controller {
-    public function index() {
+    public function index(Request $request) {
         // buscar no banco de dados
-        $series = Serie::all();
+        $series = Serie::query()
+            ->orderBy('nome')
+            ->get();
+        $mensagem = $request->session()->get('mensagem');
+        $request->session()->remove('mensagem');
         
         //primeiro parametro é a view e o segundo é o valor passado
-        return view('series.index', compact('series')); 
+        return view('series.index', compact('series', 'mensagem')); 
     }
 
     public function create() {
@@ -20,8 +24,9 @@ class SeriesController extends Controller {
 
     //salvar no banco de dados
     public function store(Request $request) {
-        $nome = $request->nome;
         /*
+        $nome = $request->nome;
+        
         $serie = Serie::create([
             'nome' => $nome
         ]);
@@ -29,7 +34,23 @@ class SeriesController extends Controller {
 
         // pegar todos os dados do formulário e adiciona no banco
         $serie = Serie::create($request->all());
+        $request->session()
+            ->flash(
+                'mensagem', "Série {$serie->id} criada com sucesso {$serie->nome}"
+            );
 
-        echo "Serie com id {$serie->id} criada: {$serie->nome}";
+        // determina página que será redirecionado
+        return redirect()->route('listar_series');
+    }
+
+    public function destroy(Request $request) {
+        Serie::destroy($request->id);
+
+        $request->session()
+            ->flash(
+                'mensagem', "Série removida com sucesso"
+            );
+
+            return redirect()->route('listar_series');
     }
 }
