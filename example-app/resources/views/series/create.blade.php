@@ -7,6 +7,8 @@ Adicionar Série
 @section('conteudo')
 
 <form method="post">
+    <!-- COLOCAR PARA QUE SEJA ENVIADO O FORMULÁRIO UTILIZANDO O MÉTODO POST -->
+    @csrf  
     <div class="form-group">
         <label for="nome">Nome</label>
         <input type="text" class="form-control" name="nome" id="nome">
