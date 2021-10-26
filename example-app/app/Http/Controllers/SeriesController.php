@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class SeriesController extends Controller {
-    public function index(Request $request) {
+    public function index() {
         $series = [
             'Ted Lasso',
             'Friends',
             'This is Us'
         ];
         
-        $html = "<ul>";
-        foreach ($series as $series) {
-            $html .= "<li>$series</li>";
-        }
-        $html .= "</ul>";
-    
-        return $html;
+        //primeiro parametro é a view e o segundo é o valor passado
+        return view('series.index', compact('series')); 
+    }
+
+    public function create() {
+        return view('series.create');
     }
 }
